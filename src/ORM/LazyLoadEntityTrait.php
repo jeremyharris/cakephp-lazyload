@@ -1,6 +1,7 @@
 <?php
 namespace JeremyHarris\LazyLoad\ORM;
 
+use Cake\Core\App;
 use Cake\ORM\Association;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -79,10 +80,18 @@ trait LazyLoadEntityTrait
     protected function _repository()
     {
         $source = $this->source();
+
         if ($source === null) {
-            list(, $class) = namespaceSplit(get_class($this));
-            $source = Inflector::pluralize($class);
+            $fullClass = get_class($this);
+            list($namespace, $class) = namespaceSplit($fullClass);
+
+            if(substr($namespace, -12) === 'Model\\Entity') {
+                $source = Inflector::pluralize(App::shortName($fullClass, 'Model/Entity', ''));
+            }else{
+                $source = Inflector::pluralize($class);
+            }
         }
+
         return TableRegistry::get($source);
     }
 }
