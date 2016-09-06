@@ -56,6 +56,7 @@ trait LazyLoadEntityTrait
 
         if ($has === false) {
             $has = $this->_lazyLoad($property);
+
             return !empty($has);
         }
 
@@ -115,6 +116,7 @@ trait LazyLoadEntityTrait
             list(, $class) = namespaceSplit(get_class($this));
             $source = Inflector::pluralize($class);
         }
+
         return TableRegistry::get($source);
     }
 }
