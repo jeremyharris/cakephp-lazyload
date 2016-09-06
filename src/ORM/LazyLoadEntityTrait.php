@@ -56,7 +56,7 @@ trait LazyLoadEntityTrait
 
         if ($has === false) {
             $has = $this->_lazyLoad($property);
-            return $has !== null;
+            return !empty($has);
         }
 
         return $has;

@@ -225,12 +225,13 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testHas()
     {
-        $article = $this->Articles->get(1);
+        $article = $this->Articles->get(3);
 
         $serialized = $article->toArray();
         $this->assertArrayNotHasKey('author', $serialized);
 
         $this->assertTrue($article->has('author'));
+        $this->assertFalse($article->has('tags'));
     }
 
     /**
