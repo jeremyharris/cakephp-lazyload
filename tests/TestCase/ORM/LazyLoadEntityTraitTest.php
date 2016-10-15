@@ -1,6 +1,8 @@
 <?php
 namespace JeremyHarris\LazyLoad\Test\TestCase\ORM;
 
+use Cake\Event\Event;
+use Cake\ORM\Query;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use JeremyHarris\LazyLoad\TestApp\Model\Entity\Comment;
@@ -229,6 +231,25 @@ class LazyLoadEntityTraitTest extends TestCase
         $tags = $article->tags;
 
         $this->assertEquals(2, count($tags));
+    }
+
+    /**
+     * tests lazy loading
+     *
+     * @return void
+     */
+    public function testLazyLoadNonExistent()
+    {
+        $this->Articles->Authors->eventManager()
+            ->on('Model.beforeFind', function (Event $event, Query $query) {
+                $query->formatResults(function ($resultSet) {
+                    return $resultSet;
+                });
+            });
+        $article = $this->Articles->get(4);
+        $author = $article->author;
+
+        $this->assertNull($author);
     }
 
     /**
