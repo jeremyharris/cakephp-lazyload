@@ -117,11 +117,11 @@ class LazyLoadEntityTraitTest extends TestCase
             'foreignKey' => 'user_id'
         ]);
 
-        $comment = $this->getMock(
-            Comment::class,
-            ['_repository'],
-            [['id' => 1, 'user_id' => 2]]
-        );
+        $comment = $this->getMockBuilder(Comment::class)
+            ->setConstructorArgs([['id' => 1, 'user_id' => 2]])
+            ->setMethods(['_repository'])
+            ->getMock();
+
         $comment
             ->expects($this->once())
             ->method('_repository')
@@ -167,11 +167,11 @@ class LazyLoadEntityTraitTest extends TestCase
             'foreignKey' => 'user_id'
         ]);
 
-        $comment = $this->getMock(
-            Comment::class,
-            ['_repository'],
-            [['id' => 1, 'user_id' => 2]]
-        );
+        $comment = $this->getMockBuilder(Comment::class)
+            ->setConstructorArgs([['id' => 1, 'user_id' => 2]])
+            ->setMethods(['_repository'])
+            ->getMock();
+
         $comment
             ->expects($this->once())
             ->method('_repository')
@@ -195,11 +195,11 @@ class LazyLoadEntityTraitTest extends TestCase
             'foreignKey' => 'user_id'
         ]);
 
-        $comment = $this->getMock(
-            Comment::class,
-            ['_repository'],
-            [['id' => 1, 'user_id' => 2]]
-        );
+        $comment = $this->getMockBuilder(Comment::class)
+            ->setConstructorArgs([['id' => 1, 'user_id' => 2]])
+            ->setMethods(['_repository'])
+            ->getMock();
+
         $comment
             ->expects($this->once())
             ->method('_repository')
