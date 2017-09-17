@@ -109,10 +109,6 @@ trait LazyLoadEntityTrait
     {
         // check if the property has been unset at some point
         if (array_search($property, $this->_unsetProperties) !== false) {
-            if (isset($this->_properties[$property])) {
-                return $this->_properties[$property];
-            }
-
             return null;
         }
 

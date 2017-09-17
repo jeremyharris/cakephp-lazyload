@@ -130,6 +130,10 @@ class LazyLoadEntityTraitTest extends TestCase
         $this->assertInstanceOf(EntityInterface::class, $comment->author);
         $comment->unsetProperty('author');
         $this->assertNull($comment->author);
+
+        // test re-setting a previously un-set prop
+        $comment->author = 'manual set';
+        $this->assertSame('manual set', $comment->author);
     }
 
     /**
