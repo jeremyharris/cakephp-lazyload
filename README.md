@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/jeremyharris/cakephp-lazyload.png?branch=master)](http://travis-ci.org/jeremyharris/cakephp-lazyload)
+[![Build Status](https://travis-ci.org/jeremyharris/cakephp-lazyload.svg?branch=master)](http://travis-ci.org/jeremyharris/cakephp-lazyload)
 [![codecov](https://codecov.io/gh/jeremyharris/cakephp-lazyload/branch/master/graph/badge.svg)](https://codecov.io/gh/jeremyharris/cakephp-lazyload)
 [![Packagist](https://img.shields.io/packagist/dt/jeremyharris/cakephp-lazyload.svg)](https://packagist.org/packages/jeremyharris/cakephp-lazyload)
 [![license](https://img.shields.io/github/license/jeremyharris/cakephp-lazyload.svg)]()
