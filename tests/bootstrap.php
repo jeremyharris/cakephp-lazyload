@@ -9,7 +9,7 @@ define('ROOT', dirname(__DIR__) . DS);
 define('APP', ROOT . 'tests' . DS . 'test_app' . DS);
 define('TMP', sys_get_temp_dir() . DS);
 
-define('CAKE_CORE_INCLUDE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp'. DS);
+define('CAKE_CORE_INCLUDE_PATH', ROOT . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS);
 define('CAKE', CAKE_CORE_INCLUDE_PATH . 'src' . DS);
 
 require_once CAKE_CORE_INCLUDE_PATH . 'config' . DS . 'bootstrap.php';
