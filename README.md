@@ -1,4 +1,5 @@
 [![Build Status](https://secure.travis-ci.org/jeremyharris/cakephp-lazyload.png?branch=master)](http://travis-ci.org/jeremyharris/cakephp-lazyload)
+[![codecov](https://codecov.io/gh/jeremyharris/cakephp-lazyload/branch/master/graph/badge.svg)](https://codecov.io/gh/jeremyharris/cakephp-lazyload)
 
 # CakePHP ORM LazyLoad Plugin
 
