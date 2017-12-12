@@ -2,6 +2,7 @@
 namespace JeremyHarris\LazyLoad\ORM;
 
 use Cake\Datasource\RepositoryInterface;
+use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
@@ -48,7 +49,7 @@ trait LazyLoadEntityTrait
      */
     protected function &_parentGet($property)
     {
-        return parent::get($property);
+        return Entity::get($property);
     }
 
     /**
@@ -81,7 +82,7 @@ trait LazyLoadEntityTrait
      */
     protected function _parentHas($property)
     {
-        return parent::has($property);
+        return Entity::has($property);
     }
 
     /**
@@ -96,7 +97,8 @@ trait LazyLoadEntityTrait
         foreach ($property as $prop) {
             $this->_unsetProperties[] = $prop;
         }
-        return parent::unsetProperty($property);
+
+        return Entity::unsetProperty($property);
     }
 
     /**
