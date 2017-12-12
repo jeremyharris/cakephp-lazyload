@@ -374,6 +374,9 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testDuplicateTrait()
     {
+        // php 5.6 complains when classes are composed as such
+        $this->skipIf(version_compare(PHP_VERSION, '7.0.0', '<'));
+
         $this->Users = TableRegistry::get('Users');
         $this->Users->setEntityClass(User::class);
         $this->Users->hasMany('Comments');
