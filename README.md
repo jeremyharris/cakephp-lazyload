@@ -20,8 +20,9 @@ Requirements
 
 ## Usage
 
-Add the trait to the entity you wish to lazily load association data for. Or,
-attach it to your base entity if you have one to affect all entities:
+If you have a base entity, add the trait to get lazy loading across
+all of your entities. Or, attach it to a single entity to only lazy
+load on that entity:
 
 **src/Model/Entity/User.php**
 ```php
