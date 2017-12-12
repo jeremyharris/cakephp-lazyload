@@ -7,6 +7,7 @@ use Cake\TestSuite\TestCase;
 use JeremyHarris\LazyLoad\TestApp\Model\Entity\Comment;
 use JeremyHarris\LazyLoad\TestApp\Model\Entity\LazyLoadableEntity;
 use JeremyHarris\LazyLoad\TestApp\Model\Entity\TablelessEntity;
+use JeremyHarris\LazyLoad\TestApp\Model\Entity\User;
 
 /**
  * LazyLoadEntityTrait test
@@ -361,5 +362,23 @@ class LazyLoadEntityTraitTest extends TestCase
         $article = $this->Articles->find()->contain('Authors')->first();
 
         $this->assertEquals('mariano', $article->author->name);
+    }
+
+    /**
+     * test that checks that we don't get an infinite loop when including the trait twice
+     *
+     * User extends LazyLoadableEntity, uses Trait
+     * LazyLoadableEntity uses Trait
+     *
+     * @return void
+     */
+    public function testDuplicateTrait()
+    {
+        $this->Users = TableRegistry::get('Users');
+        $this->Users->setEntityClass(User::class);
+        $this->Users->hasMany('Comments');
+
+        $user = $this->Users->get(1);
+        $this->assertTrue($user->has('comments'));
     }
 }
