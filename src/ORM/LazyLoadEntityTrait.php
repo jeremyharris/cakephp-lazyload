@@ -32,7 +32,7 @@ trait LazyLoadEntityTrait
      */
     public function &get($property)
     {
-        $get = $this->_parentGet($property);
+        $get = &$this->_parentGet($property);
 
         if ($get === null) {
             $get = $this->_lazyLoad($property);
