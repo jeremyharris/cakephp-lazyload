@@ -2,15 +2,18 @@
 namespace JeremyHarris\LazyLoad\Test\TestCase\ORM;
 
 use Cake\Datasource\EntityInterface;
+use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use JeremyHarris\LazyLoad\TestApp\Model\Entity\Comment;
 use JeremyHarris\LazyLoad\TestApp\Model\Entity\LazyLoadableEntity;
 use JeremyHarris\LazyLoad\TestApp\Model\Entity\TablelessEntity;
 use JeremyHarris\LazyLoad\TestApp\Model\Entity\User;
+use JeremyHarris\LazyLoad\TestApp\Model\Table\ArticlesTable;
 
 /**
  * LazyLoadEntityTrait test
+ * @property ArticlesTable $Articles
  */
 class LazyLoadEntityTraitTest extends TestCase
 {
@@ -383,5 +386,33 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $user = $this->Users->get(1);
         $this->assertTrue($user->has('comments'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testByRefArrayFunctionsWorkOnNormalCakeEntities()
+    {
+        $this->Articles->setEntityClass(Entity::class);
+
+        $article = $this->Articles->get(1, ['contain' => ['Tags']]);
+        $newTag = new Entity();
+
+        $this->assertCount(2, $article->tags);
+        array_unshift($article->tags, $newTag);
+        $this->assertCount(3, $article->tags);
+    }
+
+    /**
+     * @return void
+     */
+    public function testByRefArrayFunctionsWorkOnLazyLoadCakeEntities()
+    {
+        $article = $this->Articles->get(1, ['contain' => ['Tags']]);
+        $newTag = new Entity();
+
+        $this->assertCount(2, $article->tags);
+        array_unshift($article->tags, $newTag);
+        $this->assertCount(3, $article->tags);
     }
 }
