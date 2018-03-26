@@ -3,6 +3,7 @@ namespace JeremyHarris\LazyLoad\Test\TestCase\ORM;
 
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Entity;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use JeremyHarris\LazyLoad\TestApp\Model\Entity\Comment;
@@ -17,6 +18,8 @@ use JeremyHarris\LazyLoad\TestApp\Model\Table\ArticlesTable;
  */
 class LazyLoadEntityTraitTest extends TestCase
 {
+
+    use LocatorAwareTrait;
 
     /**
      * Fixtures
@@ -41,8 +44,8 @@ class LazyLoadEntityTraitTest extends TestCase
     {
         parent::setUp();
 
-        $this->Articles = TableRegistry::get('Articles');
-        $this->Articles->entityClass(LazyLoadableEntity::class);
+        $this->Articles = $this->getTableLocator()->get('Articles');
+        $this->Articles->setEntityClass(LazyLoadableEntity::class);
         $this->Articles->belongsTo('Authors');
         $this->Articles->hasMany('Comments');
         $this->Articles->belongsToMany('Tags', [
@@ -57,7 +60,7 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testFormatResultsNonExistentRecord()
     {
-        $this->Articles->Authors->eventManager()
+        $this->Articles->Authors->getEventManager()
             ->on('Model.beforeFind', function ($event, $query) {
                 $query->formatResults(function ($resultSet) {
                     return $resultSet;
@@ -86,7 +89,7 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testMissingPrimaryKey()
     {
-        $this->Comments = TableRegistry::get('Comments');
+        $this->Comments = $this->getTableLocator()->get('Comments');
         $this->Comments->belongsTo('Authors', [
             'foreignKey' => 'user_id'
         ]);
@@ -116,7 +119,7 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testUnsetProperty()
     {
-        $this->Comments = TableRegistry::get('Comments');
+        $this->Comments = $this->getTableLocator()->get('Comments');
         $this->Comments->belongsTo('Authors', [
             'foreignKey' => 'user_id'
         ]);
@@ -148,8 +151,8 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testUnsetEagerLoadedProperty()
     {
-        $this->Comments = TableRegistry::get('Comments');
-        $this->Comments->entityClass(LazyLoadableEntity::class);
+        $this->Comments = $this->getTableLocator()->get('Comments');
+        $this->Comments->setEntityClass(LazyLoadableEntity::class);
         $this->Comments->belongsTo('Authors', [
             'foreignKey' => 'user_id'
         ]);
@@ -170,7 +173,7 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testHasLazyLoadsOnce()
     {
-        $this->Comments = TableRegistry::get('Comments');
+        $this->Comments = $this->getTableLocator()->get('Comments');
         $this->Comments->belongsTo('Authors', [
             'foreignKey' => 'user_id'
         ]);
@@ -198,7 +201,7 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testGetLazyLoadsOnce()
     {
-        $this->Comments = TableRegistry::get('Comments');
+        $this->Comments = $this->getTableLocator()->get('Comments');
         $this->Comments->belongsTo('Authors', [
             'foreignKey' => 'user_id'
         ]);
@@ -228,8 +231,8 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testGetAccessor()
     {
-        $this->Comments = TableRegistry::get('Comments');
-        $this->Comments->entityClass(Comment::class);
+        $this->Comments = $this->getTableLocator()->get('Comments');
+        $this->Comments->setEntityClass(Comment::class);
         $comment = $this->Comments->get(1);
 
         $this->assertEquals('accessor', $comment->accessor);
@@ -269,7 +272,7 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testEmptySource()
     {
-        $this->Comments = TableRegistry::get('Comments');
+        $this->Comments = $this->getTableLocator()->get('Comments');
         $this->Comments->belongsTo('Authors', [
             'foreignKey' => 'user_id'
         ]);
@@ -287,8 +290,8 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testDeepLazyLoad()
     {
-        $this->Comments = TableRegistry::get('Comments');
-        $this->Comments->entityClass(LazyLoadableEntity::class);
+        $this->Comments = $this->getTableLocator()->get('Comments');
+        $this->Comments->setEntityClass(LazyLoadableEntity::class);
         $this->Comments->belongsTo('Users');
 
         $article = $this->Articles->get(1);
@@ -380,7 +383,7 @@ class LazyLoadEntityTraitTest extends TestCase
         // php 5.6 complains when classes are composed as such
         $this->skipIf(version_compare(PHP_VERSION, '7.0.0', '<'));
 
-        $this->Users = TableRegistry::get('Users');
+        $this->Users = $this->getTableLocator()->get('Users');
         $this->Users->setEntityClass(User::class);
         $this->Users->hasMany('Comments');
 

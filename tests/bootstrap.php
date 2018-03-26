@@ -41,7 +41,7 @@ if (!getenv('db_dsn')) {
     putenv('db_dsn=sqlite://127.0.0.0/' . TMP . 'cakephp-lazyload.sqlite');
 }
 
-ConnectionManager::config('test', [
+ConnectionManager::setConfig('test', [
     'url' => getenv('db_dsn'),
     'timezone' => 'UTC',
 ]);

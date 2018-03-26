@@ -132,7 +132,7 @@ trait LazyLoadEntityTrait
             return null;
         }
 
-        $repository->loadInto($this, [$association->name()]);
+        $repository->loadInto($this, [$association->getName()]);
 
         // check if the association didn't exist and therefore didn't load
         if (!isset($this->_properties[$property])) {
@@ -149,12 +149,12 @@ trait LazyLoadEntityTrait
      */
     protected function _repository()
     {
-        $source = $this->source();
+        $source = $this->getSource();
         if ($source === null) {
             list(, $class) = namespaceSplit(get_class($this));
             $source = Inflector::pluralize($class);
         }
 
-        return TableRegistry::get($source);
+        return TableRegistry::getTableLocator()->get($source);
     }
 }
