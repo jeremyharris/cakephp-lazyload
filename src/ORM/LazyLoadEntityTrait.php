@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace JeremyHarris\LazyLoad\ORM;
 
 use Cake\Datasource\RepositoryInterface;
