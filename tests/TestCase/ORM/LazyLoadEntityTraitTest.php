@@ -258,7 +258,7 @@ class LazyLoadEntityTraitTest extends TestCase
     {
         $article = $this->Articles->get(1);
         $comments = $article->comments;
-        $this->assertInternalType('array', $comments);
+        $this->assertIsArray($comments);
         $this->assertCount(4, $comments);
         $this->assertInstanceOf(\Cake\Datasource\EntityInterface::class, $comments[0]);
     }

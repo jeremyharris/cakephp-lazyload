@@ -150,7 +150,7 @@ trait LazyLoadEntityTrait
     protected function _repository()
     {
         $source = $this->getSource();
-        if ($source === null) {
+        if (empty($source)) {
             list(, $class) = namespaceSplit(get_class($this));
             $source = Inflector::pluralize($class);
         }
