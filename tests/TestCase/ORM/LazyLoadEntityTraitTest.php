@@ -357,7 +357,10 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testDontInterfereWithContain()
     {
-        $this->Articles = $this->getMockForModel('Articles', ['_lazyLoad'], ['table' => 'articles']);
+        $this->Articles = $this->getMockBuilder(ArticlesTable::class)
+            ->addMethods(['_lazyLoad'])
+            ->setConstructorArgs([['table' => 'articles']])
+            ->getMock();
         $this->Articles->belongsTo('Authors');
 
         $this->Articles
