@@ -58,7 +58,7 @@ trait LazyLoadEntityTrait
      * @param string|array $property Property
      * @return bool
      */
-    public function has($property)
+    public function has($property): bool
     {
         foreach ((array)$property as $prop) {
             $has = $this->_parentHas($prop);

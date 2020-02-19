@@ -4,7 +4,6 @@ namespace JeremyHarris\LazyLoad\Test\TestCase\ORM;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Entity;
 use Cake\ORM\Locator\LocatorAwareTrait;
-use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use JeremyHarris\LazyLoad\TestApp\Model\Entity\Comment;
 use JeremyHarris\LazyLoad\TestApp\Model\Entity\LazyLoadableEntity;
@@ -27,12 +26,12 @@ class LazyLoadEntityTraitTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.JeremyHarris\LazyLoad.articles',
-        'plugin.JeremyHarris\LazyLoad.articles_tags',
-        'plugin.JeremyHarris\LazyLoad.authors',
-        'plugin.JeremyHarris\LazyLoad.comments',
-        'plugin.JeremyHarris\LazyLoad.tags',
-        'plugin.JeremyHarris\LazyLoad.users',
+        'plugin.JeremyHarris\LazyLoad.Articles',
+        'plugin.JeremyHarris\LazyLoad.ArticlesTags',
+        'plugin.JeremyHarris\LazyLoad.Authors',
+        'plugin.JeremyHarris\LazyLoad.Comments',
+        'plugin.JeremyHarris\LazyLoad.Tags',
+        'plugin.JeremyHarris\LazyLoad.Users',
     ];
 
     /**
@@ -40,7 +39,7 @@ class LazyLoadEntityTraitTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
