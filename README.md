@@ -13,12 +13,12 @@ lazily load association data by accessessing the property, without using
 
 Requirements
 
-- CakePHP ORM (or the full framework) >= 3.6.x, < 4.0.0
+- CakePHP ORM (or the full framework) 4.x
 - sloth
 
 `$ composer require jeremyharris/cakephp-lazyload`
 
-For older versions of the CakePHP ORM, please use version `2.0.x`.
+For older versions of the CakePHP ORM, look at older releases of this library.
 
 ## Usage
 
