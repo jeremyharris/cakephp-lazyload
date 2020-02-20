@@ -58,7 +58,7 @@ trait LazyLoadEntityTrait
      * @param string|array $property Property
      * @return bool
      */
-    public function has($property)
+    public function has($property): bool
     {
         foreach ((array)$property as $prop) {
             $has = $this->_parentHas($prop);
@@ -115,8 +115,8 @@ trait LazyLoadEntityTrait
         }
 
         // check if the property was set as null to begin with
-        if (array_key_exists($property, $this->_properties)) {
-            return $this->_properties[$property];
+        if (array_key_exists($property, $this->_fields)) {
+            return $this->_fields[$property];
         }
 
         $repository = $this->_repository($property);
@@ -135,11 +135,11 @@ trait LazyLoadEntityTrait
         $repository->loadInto($this, [$association->getName()]);
 
         // check if the association didn't exist and therefore didn't load
-        if (!isset($this->_properties[$property])) {
+        if (!isset($this->_fields[$property])) {
             return null;
         }
 
-        return $this->_properties[$property];
+        return $this->_fields[$property];
     }
 
     /**
@@ -150,7 +150,7 @@ trait LazyLoadEntityTrait
     protected function _repository()
     {
         $source = $this->getSource();
-        if ($source === null) {
+        if (empty($source)) {
             list(, $class) = namespaceSplit(get_class($this));
             $source = Inflector::pluralize($class);
         }
