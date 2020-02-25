@@ -116,6 +116,38 @@ class LazyLoadEntityTraitTest extends TestCase
      *
      * @return void
      */
+    public function testUnset()
+    {
+        $this->Comments = $this->getTableLocator()->get('Comments');
+        $this->Comments->belongsTo('Authors', [
+            'foreignKey' => 'user_id'
+        ]);
+
+        $comment = $this->getMockBuilder(Comment::class)
+            ->setConstructorArgs([['id' => 1, 'user_id' => 2]])
+            ->setMethods(['_repository'])
+            ->getMock();
+
+        $comment
+            ->expects($this->once())
+            ->method('_repository')
+            ->will($this->returnValue($this->Comments));
+
+        $this->assertInstanceOf(EntityInterface::class, $comment->author);
+        $comment->unset('author');
+        $this->assertNull($comment->author);
+
+        // test re-setting a previously un-set prop
+        $comment->author = 'manual set';
+        $this->assertSame('manual set', $comment->author);
+    }
+
+    /**
+     * tests that unsetting a property through proxy of
+     * \Cake\Datasource\EntityTrait::unsetProperty() until its removal
+     *
+     * @return void
+     */
     public function testUnsetProperty()
     {
         $this->Comments = $this->getTableLocator()->get('Comments');
@@ -135,6 +167,38 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $this->assertInstanceOf(EntityInterface::class, $comment->author);
         $comment->unsetProperty('author');
+        $this->assertNull($comment->author);
+
+        // test re-setting a previously un-set prop
+        $comment->author = 'manual set';
+        $this->assertSame('manual set', $comment->author);
+    }
+
+    /**
+     * tests that unsetting a property by calling unset($obj->prop) which invokes
+     * \Cake\Datasource\EntityTrait::__unset()
+     *
+     * @return void
+     */
+    public function testUnsetMagicMethod()
+    {
+        $this->Comments = $this->getTableLocator()->get('Comments');
+        $this->Comments->belongsTo('Authors', [
+            'foreignKey' => 'user_id'
+        ]);
+
+        $comment = $this->getMockBuilder(Comment::class)
+            ->setConstructorArgs([['id' => 1, 'user_id' => 2]])
+            ->setMethods(['_repository'])
+            ->getMock();
+
+        $comment
+            ->expects($this->once())
+            ->method('_repository')
+            ->will($this->returnValue($this->Comments));
+
+        $this->assertInstanceOf(EntityInterface::class, $comment->author);
+        unset($comment->author); // invoke magic __unset()
         $this->assertNull($comment->author);
 
         // test re-setting a previously un-set prop
