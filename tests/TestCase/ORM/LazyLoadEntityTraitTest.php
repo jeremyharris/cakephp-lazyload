@@ -116,7 +116,7 @@ class LazyLoadEntityTraitTest extends TestCase
      *
      * @return void
      */
-    public function testUnsetProperty()
+    public function testUnset()
     {
         $this->Comments = $this->getTableLocator()->get('Comments');
         $this->Comments->belongsTo('Authors', [
@@ -134,7 +134,7 @@ class LazyLoadEntityTraitTest extends TestCase
             ->will($this->returnValue($this->Comments));
 
         $this->assertInstanceOf(EntityInterface::class, $comment->author);
-        $comment->unsetProperty('author');
+        $comment->unset('author');
         $this->assertNull($comment->author);
 
         // test re-setting a previously un-set prop

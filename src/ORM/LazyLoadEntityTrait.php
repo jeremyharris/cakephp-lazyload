@@ -91,14 +91,14 @@ trait LazyLoadEntityTrait
      * @param array|string $property Property
      * @return $this
      */
-    public function unsetProperty($property)
+    public function unset($property)
     {
         $property = (array)$property;
         foreach ($property as $prop) {
             $this->_unsetProperties[] = $prop;
         }
 
-        return Entity::unsetProperty($property);
+        return Entity::unset($property);
     }
 
     /**
