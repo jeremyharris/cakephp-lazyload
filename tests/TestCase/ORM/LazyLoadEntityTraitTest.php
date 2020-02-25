@@ -143,6 +143,38 @@ class LazyLoadEntityTraitTest extends TestCase
     }
 
     /**
+     * tests that unsetting a property through proxy of
+     * \Cake\Datasource\EntityTrait::unsetProperty() until its removal
+     *
+     * @return void
+     */
+    public function testUnsetProperty()
+    {
+        $this->Comments = $this->getTableLocator()->get('Comments');
+        $this->Comments->belongsTo('Authors', [
+            'foreignKey' => 'user_id'
+        ]);
+
+        $comment = $this->getMockBuilder(Comment::class)
+            ->setConstructorArgs([['id' => 1, 'user_id' => 2]])
+            ->setMethods(['_repository'])
+            ->getMock();
+
+        $comment
+            ->expects($this->once())
+            ->method('_repository')
+            ->will($this->returnValue($this->Comments));
+
+        $this->assertInstanceOf(EntityInterface::class, $comment->author);
+        $comment->unsetProperty('author');
+        $this->assertNull($comment->author);
+
+        // test re-setting a previously un-set prop
+        $comment->author = 'manual set';
+        $this->assertSame('manual set', $comment->author);
+    }
+
+    /**
      * tests that lazy loading a previously unset eager loaded property does not
      * reload the property
      *
