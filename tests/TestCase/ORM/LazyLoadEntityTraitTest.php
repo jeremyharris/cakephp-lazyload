@@ -17,7 +17,6 @@ use JeremyHarris\LazyLoad\TestApp\Model\Table\ArticlesTable;
  */
 class LazyLoadEntityTraitTest extends TestCase
 {
-
     use LocatorAwareTrait;
 
     /**
@@ -166,7 +165,7 @@ class LazyLoadEntityTraitTest extends TestCase
             ->will($this->returnValue($this->Comments));
 
         $this->assertInstanceOf(EntityInterface::class, $comment->author);
-        $comment->unsetProperty('author');
+        $comment->unset('author');
         $this->assertNull($comment->author);
 
         // test re-setting a previously un-set prop
@@ -225,7 +224,7 @@ class LazyLoadEntityTraitTest extends TestCase
             ->first();
 
         $this->assertInstanceOf(EntityInterface::class, $comment->author);
-        $comment->unsetProperty('author');
+        $comment->unset('author');
         $this->assertNull($comment->author);
     }
 
