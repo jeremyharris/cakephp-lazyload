@@ -1,7 +1,9 @@
 <?php
 namespace JeremyHarris\LazyLoad\Test\TestCase\ORM;
 
+use Cake\Datasource\ConnectionManager;
 use Cake\Datasource\EntityInterface;
+use Cake\Log\Log;
 use Cake\ORM\Entity;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\TestSuite\TestCase;
@@ -41,6 +43,8 @@ class LazyLoadEntityTraitTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->connection = ConnectionManager::get('test');
 
         $this->Articles = $this->getTableLocator()->get('Articles');
         $this->Articles->setEntityClass(LazyLoadableEntity::class);
@@ -94,6 +98,29 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $comment = new Comment(['user_id' => 2]);
         $this->assertNull($comment->author);
+    }
+
+    /**
+     * tests that no db queries are performed if there's no association
+     *
+     * @return void
+     */
+    public function testNoDbQueriesOnEmptyAssociation()
+    {
+        $article = $this->Articles->newEntity([
+            'title' => 'Article with no author',
+            'body' => 'Article content',
+        ]);
+
+        Log::setConfig('queries', ['className' => 'Array']);
+        $this->connection->enableQueryLogging();
+
+        $this->assertFalse(isset($article->author));
+
+        $this->connection->disableQueryLogging();
+
+        $msgs = Log::engine('queries')->read();
+        $this->assertCount(3, $msgs);
     }
 
     /**
