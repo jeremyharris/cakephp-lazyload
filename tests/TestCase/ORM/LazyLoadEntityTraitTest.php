@@ -117,7 +117,7 @@ class LazyLoadEntityTraitTest extends TestCase
             'body' => 'Article content',
         ]);
 
-        // Force a a database query
+        // Force a database query
         $this->getTableLocator()->get('Authors')->getSchema();
 
         $initialQueries = count($log->read());
