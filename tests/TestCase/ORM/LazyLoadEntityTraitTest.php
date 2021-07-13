@@ -107,20 +107,26 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testNoDbQueriesOnEmptyAssociation()
     {
+        Log::setConfig('queries', ['className' => 'Array']);
+        $log = Log::engine('queries');
+
+        $this->connection->enableQueryLogging();
+
         $article = $this->Articles->newEntity([
             'title' => 'Article with no author',
             'body' => 'Article content',
         ]);
 
-        Log::setConfig('queries', ['className' => 'Array']);
-        $this->connection->enableQueryLogging();
+        // Force a a database query
+        $this->getTableLocator()->get('Authors')->getSchema();
 
+        $initialQueries = count($log->read());
         $this->assertFalse(isset($article->author));
+        $finalQueries = count($log->read());
 
         $this->connection->disableQueryLogging();
 
-        $msgs = Log::engine('queries')->read();
-        $this->assertCount(3, $msgs);
+        $this->assertEquals($initialQueries, $finalQueries);
     }
 
     /**
