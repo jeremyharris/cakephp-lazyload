@@ -128,7 +128,7 @@ trait LazyLoadEntityTrait
             ->associations()
             ->getByProperty($property);
 
-        if ($association === null) {
+        if ($association === null || $this->get($association->getBindingKey()) === null) {
             return null;
         }
 

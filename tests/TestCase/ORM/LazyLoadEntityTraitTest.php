@@ -1,7 +1,9 @@
 <?php
 namespace JeremyHarris\LazyLoad\Test\TestCase\ORM;
 
+use Cake\Datasource\ConnectionManager;
 use Cake\Datasource\EntityInterface;
+use Cake\Log\Log;
 use Cake\ORM\Entity;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\TestSuite\TestCase;
@@ -17,7 +19,6 @@ use JeremyHarris\LazyLoad\TestApp\Model\Table\ArticlesTable;
  */
 class LazyLoadEntityTraitTest extends TestCase
 {
-
     use LocatorAwareTrait;
 
     /**
@@ -42,6 +43,8 @@ class LazyLoadEntityTraitTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->connection = ConnectionManager::get('test');
 
         $this->Articles = $this->getTableLocator()->get('Articles');
         $this->Articles->setEntityClass(LazyLoadableEntity::class);
@@ -95,6 +98,35 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $comment = new Comment(['user_id' => 2]);
         $this->assertNull($comment->author);
+    }
+
+    /**
+     * tests that no db queries are performed if there's no association
+     *
+     * @return void
+     */
+    public function testNoDbQueriesOnEmptyAssociation()
+    {
+        Log::setConfig('queries', ['className' => 'Array']);
+        $log = Log::engine('queries');
+
+        $this->connection->enableQueryLogging();
+
+        $article = $this->Articles->newEntity([
+            'title' => 'Article with no author',
+            'body' => 'Article content',
+        ]);
+
+        // Force a database query
+        $this->getTableLocator()->get('Authors')->getSchema();
+
+        $initialQueries = count($log->read());
+        $this->assertFalse(isset($article->author));
+        $finalQueries = count($log->read());
+
+        $this->connection->disableQueryLogging();
+
+        $this->assertEquals($initialQueries, $finalQueries);
     }
 
     /**
@@ -166,7 +198,7 @@ class LazyLoadEntityTraitTest extends TestCase
             ->will($this->returnValue($this->Comments));
 
         $this->assertInstanceOf(EntityInterface::class, $comment->author);
-        $comment->unsetProperty('author');
+        $comment->unset('author');
         $this->assertNull($comment->author);
 
         // test re-setting a previously un-set prop
@@ -225,7 +257,7 @@ class LazyLoadEntityTraitTest extends TestCase
             ->first();
 
         $this->assertInstanceOf(EntityInterface::class, $comment->author);
-        $comment->unsetProperty('author');
+        $comment->unset('author');
         $this->assertNull($comment->author);
     }
 
