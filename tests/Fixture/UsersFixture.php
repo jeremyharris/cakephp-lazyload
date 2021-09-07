@@ -29,12 +29,12 @@ class UsersFixture extends TestFixture
      * @var array
      */
     public $fields = [
-        'user_id' => ['type' => 'integer'],
+        'id' => ['type' => 'integer'],
         'username' => ['type' => 'string', 'null' => true],
         'password' => ['type' => 'string', 'null' => true],
         'created' => ['type' => 'timestamp', 'null' => true],
         'updated' => ['type' => 'timestamp', 'null' => true],
-        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['user_id']]]
+        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
     ];
 
     /**

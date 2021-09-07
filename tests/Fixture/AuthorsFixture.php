@@ -29,9 +29,9 @@ class AuthorsFixture extends TestFixture
      * @var array
      */
     public $fields = [
-        'author_id' => ['type' => 'integer'],
+        'id' => ['type' => 'integer'],
         'name' => ['type' => 'string', 'default' => null],
-        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['author_id']]]
+        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
     ];
 
     /**
@@ -40,9 +40,9 @@ class AuthorsFixture extends TestFixture
      * @var array
      */
     public $records = [
-        ['author_id' => 1, 'name' => 'mariano'],
-        ['author_id' => 2, 'name' => 'nate'],
-        ['author_id' => 3, 'name' => 'larry'],
-        ['author_id' => 4, 'name' => 'garrett'],
+        ['name' => 'mariano'],
+        ['name' => 'nate'],
+        ['name' => 'larry'],
+        ['name' => 'garrett'],
     ];
 }
