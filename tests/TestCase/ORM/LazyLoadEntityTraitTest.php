@@ -136,6 +136,7 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testAliasedAssociationsWithSameClass()
     {
+		self::assertTrue($this->Articles instanceof ArticlesTable);
         $article = $this->Articles->newEntity([
             'author_id' => 1,
             'editor_id' => 2,
@@ -145,6 +146,7 @@ class LazyLoadEntityTraitTest extends TestCase
         $this->Articles->saveOrFail($article);
 
         $article = $this->Articles->get($article->article_id);
+		print_r($article);
         $this->assertSame('mariano', $article->author->name);
         $this->assertSame('nate', $article->editor->name);
     }
