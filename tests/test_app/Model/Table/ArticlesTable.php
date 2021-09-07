@@ -11,10 +11,10 @@ class ArticlesTable extends Table {
 		$this->setPrimaryKey('article_id');
 
 		$this->belongsTo('Author')
-			->setClassName('Authors')
+			->setClassName('Users')
 			->setForeignKey('author_id');
 		$this->belongsTo('Editor')
-			->setClassName('Authors')
+			->setClassName('Users')
 			->setForeignKey('editor_id');
 	}
 
