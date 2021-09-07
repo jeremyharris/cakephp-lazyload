@@ -48,8 +48,7 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $this->Articles = $this->getTableLocator()->get('Articles');
         $this->Articles->setEntityClass(LazyLoadableEntity::class);
-        $this->Articles->belongsTo('Authors');
-        $this->Articles->belongsTo('Editors', ['className' => 'Authors', 'foreignKey' => 'editor_id']);
+        
         $this->Articles->hasMany('Comments');
         $this->Articles->belongsToMany('Tags', [
             'joinTable' => 'articles_tags',
@@ -145,7 +144,7 @@ class LazyLoadEntityTraitTest extends TestCase
         ]);
         $this->Articles->saveOrFail($article);
 
-        $article = $this->Articles->get($article->id);
+        $article = $this->Articles->get($article->article_id);
         $this->assertSame('mariano', $article->author->name);
         $this->assertSame('nate', $article->editor->name);
     }
