@@ -27,6 +27,7 @@ class ArticlesFixture extends TestFixture
     public $fields = [
         'id' => ['type' => 'integer'],
         'author_id' => ['type' => 'integer', 'null' => true],
+        'editor_id' => ['type' => 'integer', 'null' => true],
         'title' => ['type' => 'string', 'null' => true],
         'body' => 'text',
         'published' => ['type' => 'string', 'length' => 1, 'default' => 'N'],
@@ -39,10 +40,10 @@ class ArticlesFixture extends TestFixture
      * @var array
      */
     public $records = [
-        ['author_id' => 1, 'title' => 'First Article', 'body' => 'First Article Body', 'published' => 'Y'],
-        ['author_id' => 3, 'title' => 'Second Article', 'body' => 'Second Article Body', 'published' => 'Y'],
-        ['author_id' => 1, 'title' => 'Third Article', 'body' => 'Third Article Body', 'published' => 'Y'],
-        ['author_id' => null, 'title' => 'Fourth Article', 'body' => 'Fourth Article Body', 'published' => 'Y'],
-        ['author_id' => 5, 'title' => 'My author is gone', 'body' => 'Who wrote me?', 'published' => 'Y'],
+        ['author_id' => 1, 'editor_id' => 1, 'title' => 'First Article', 'body' => 'First Article Body', 'published' => 'Y'],
+        ['author_id' => 3, 'editor_id' => 1, 'title' => 'Second Article', 'body' => 'Second Article Body', 'published' => 'Y'],
+        ['author_id' => 1, 'editor_id' => 1, 'title' => 'Third Article', 'body' => 'Third Article Body', 'published' => 'Y'],
+        ['author_id' => null, 'editor_id' => 1, 'title' => 'Fourth Article', 'body' => 'Fourth Article Body', 'published' => 'Y'],
+        ['author_id' => 5, 'editor_id' => 1, 'title' => 'My author is gone', 'body' => 'Who wrote me?', 'published' => 'Y'],
     ];
 }
