@@ -2,6 +2,7 @@
 namespace JeremyHarris\LazyLoad\ORM;
 
 use Cake\Datasource\RepositoryInterface;
+use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -128,7 +129,10 @@ trait LazyLoadEntityTrait
             ->associations()
             ->getByProperty($property);
 
-        if ($association === null || $this->get($association->getBindingKey()) === null) {
+        // is belongsTo and missing FK on this table? loadInto tries to load belongsTo data regardless
+        $isMissingBelongsToFK = $association instanceof BelongsTo && !isset($this->_fields[$association->getForeignKey()]);
+
+        if ($association === null || $isMissingBelongsToFK) {
             return null;
         }
 
