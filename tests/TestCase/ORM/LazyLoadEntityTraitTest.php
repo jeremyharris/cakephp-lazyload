@@ -46,6 +46,9 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $this->connection = ConnectionManager::get('test');
 
+        $this->Authors = $this->getTableLocator()->get('Authors');
+        $this->Authors->setPrimaryKey('author_id');
+
         $this->Articles = $this->getTableLocator()->get('Articles');
         $this->Articles->setEntityClass(LazyLoadableEntity::class);
         $this->Articles->belongsTo('Authors');
@@ -313,7 +316,7 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $author = $comment->author;
 
-        $this->assertEquals(2, $author->id);
+        $this->assertEquals(2, $author->author_id);
 
         // ensure it is grabbed from _properties and not lazy loaded again (which calls repository())
         $comment->author;
@@ -375,7 +378,7 @@ class LazyLoadEntityTraitTest extends TestCase
         $comment = new Comment(['id' => 1, 'user_id' => 2]);
         $author = $comment->author;
 
-        $this->assertEquals(2, $author->id);
+        $this->assertEquals(2, $author->author_id);
     }
 
     /**
