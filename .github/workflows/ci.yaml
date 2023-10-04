@@ -1,0 +1,27 @@
+name: ci
+
+on: [push]
+
+jobs:
+  testsuite:
+    strategy:
+      matrix:
+        php-versions: ['8.1']
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, intl-72.1
+          ini-values: zend.assertions = 1
+
+      - name: Install composer dependencies.
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Run PHPUnit.
+        run: vendor/bin/phpunit
