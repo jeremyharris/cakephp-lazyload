@@ -5,5 +5,5 @@ use Cake\ORM\Table;
 
 class ArticlesTable extends Table
 {
-
+    
 }

@@ -13,7 +13,7 @@ lazily load association data by accessessing the property, without using
 
 Requirements
 
-- CakePHP ORM (or the full framework) 4.x
+- CakePHP ORM (or the full framework) 5.x
 - sloth
 
 `$ composer require jeremyharris/cakephp-lazyload`

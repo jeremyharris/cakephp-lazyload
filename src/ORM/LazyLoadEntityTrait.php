@@ -1,4 +1,5 @@
 <?php
+
 namespace JeremyHarris\LazyLoad\ORM;
 
 use Cake\Datasource\RepositoryInterface;
@@ -31,7 +32,7 @@ trait LazyLoadEntityTrait
      * @param string $property Property
      * @return mixed
      */
-    public function &get($property)
+    public function &get($property): mixed
     {
         $get = &$this->_parentGet($property);
 
@@ -155,7 +156,7 @@ trait LazyLoadEntityTrait
     {
         $source = $this->getSource();
         if (empty($source)) {
-            list(, $class) = namespaceSplit(get_class($this));
+            list(, $class) = \namespaceSplit(get_class($this));
             $source = Inflector::pluralize($class);
         }
 

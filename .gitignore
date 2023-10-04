@@ -2,4 +2,6 @@
 /composer.lock
 /phpunit.xml
 /.phpunit.result.cache
+/.phpunit.cache
 /.vscode
+/tests/cakephp-lazyload.sqlite
