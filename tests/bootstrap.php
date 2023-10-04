@@ -4,6 +4,7 @@ use Cake\Datasource\ConnectionManager;
 
 require_once 'vendor/autoload.php';
 
+
 // Path constants to a few helpful things.
 define('ROOT', dirname(__DIR__) . DS);
 define('APP', ROOT . 'tests' . DS . 'test_app' . DS);

@@ -12,6 +12,7 @@
  * @since         1.2.0
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace JeremyHarris\LazyLoad\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
@@ -24,7 +25,7 @@ class ArticlesFixture extends TestFixture
      *
      * @var array
      */
-    public $fields = [
+    public array $fields = [
         'id' => ['type' => 'integer'],
         'author_id' => ['type' => 'integer', 'null' => true],
         'title' => ['type' => 'string', 'null' => true],
@@ -38,7 +39,7 @@ class ArticlesFixture extends TestFixture
      *
      * @var array
      */
-    public $records = [
+    public array $records = [
         ['author_id' => 1, 'title' => 'First Article', 'body' => 'First Article Body', 'published' => 'Y'],
         ['author_id' => 3, 'title' => 'Second Article', 'body' => 'Second Article Body', 'published' => 'Y'],
         ['author_id' => 1, 'title' => 'Third Article', 'body' => 'Third Article Body', 'published' => 'Y'],

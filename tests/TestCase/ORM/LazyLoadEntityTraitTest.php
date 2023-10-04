@@ -26,7 +26,7 @@ class LazyLoadEntityTraitTest extends TestCase
      *
      * @var array
      */
-    public $fixtures = [
+    public array $fixtures = [
         'plugin.JeremyHarris\LazyLoad.Articles',
         'plugin.JeremyHarris\LazyLoad.ArticlesTags',
         'plugin.JeremyHarris\LazyLoad.Authors',
@@ -499,7 +499,7 @@ class LazyLoadEntityTraitTest extends TestCase
     {
         $this->Articles->setEntityClass(Entity::class);
 
-        $article = $this->Articles->get(1, ['contain' => ['Tags']]);
+        $article = $this->Articles->get(1, contain: ['Tags']);
         $newTag = new Entity();
 
         $this->assertCount(2, $article->tags);
@@ -512,7 +512,7 @@ class LazyLoadEntityTraitTest extends TestCase
      */
     public function testByRefArrayFunctionsWorkOnLazyLoadCakeEntities()
     {
-        $article = $this->Articles->get(1, ['contain' => ['Tags']]);
+        $article = $this->Articles->get(1, contain: ['Tags']);
         $newTag = new Entity();
 
         $this->assertCount(2, $article->tags);
