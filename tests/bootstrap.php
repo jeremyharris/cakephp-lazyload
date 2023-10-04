@@ -45,7 +45,7 @@ Configure::write('App', [
 
 // Ensure default test connection is defined
 if (!getenv('db_dsn')) {
-    putenv('db_dsn=sqlite://./asd.sqlite');
+    putenv('db_dsn=sqlite://./tests/cakephp-lazyload.sqlite');
 }
 
 ConnectionManager::setConfig('test', [
@@ -53,11 +53,8 @@ ConnectionManager::setConfig('test', [
     'timezone' => 'UTC',
 ]);
 
-
-
-
 // Load one or more SQL files.
 (new SchemaLoader())->loadSqlFiles(
-    ROOT . 'tests' . DS. 'schema.sql', 
+    ROOT . 'tests' . DS. 'schema.sql',
     'test'
 );
