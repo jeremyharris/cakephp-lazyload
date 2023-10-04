@@ -1,4 +1,5 @@
 <?php
+
 namespace JeremyHarris\LazyLoad\Test\TestCase\ORM;
 
 use Cake\Datasource\ConnectionManager;
@@ -113,8 +114,6 @@ class LazyLoadEntityTraitTest extends TestCase
         Log::setConfig('queries', ['className' => 'Array']);
         $log = Log::engine('queries');
 
-        $this->connection->enableQueryLogging();
-
         $article = $this->Articles->newEntity([
             'title' => 'Article with no author',
             'body' => 'Article content',
@@ -126,8 +125,7 @@ class LazyLoadEntityTraitTest extends TestCase
         $initialQueries = count($log->read());
         $this->assertFalse(isset($article->author));
         $finalQueries = count($log->read());
-
-        $this->connection->disableQueryLogging();
+        
 
         $this->assertEquals($initialQueries, $finalQueries);
     }
@@ -160,7 +158,7 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $comment = $this->getMockBuilder(Comment::class)
             ->setConstructorArgs([['id' => 1, 'user_id' => 2]])
-            ->setMethods(['_repository'])
+            ->onlyMethods(['_repository'])
             ->getMock();
 
         $comment
@@ -192,7 +190,7 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $comment = $this->getMockBuilder(Comment::class)
             ->setConstructorArgs([['id' => 1, 'user_id' => 2]])
-            ->setMethods(['_repository'])
+            ->onlyMethods(['_repository'])
             ->getMock();
 
         $comment
@@ -224,7 +222,7 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $comment = $this->getMockBuilder(Comment::class)
             ->setConstructorArgs([['id' => 1, 'user_id' => 2]])
-            ->setMethods(['_repository'])
+            ->onlyMethods(['_repository'])
             ->getMock();
 
         $comment
@@ -278,7 +276,7 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $comment = $this->getMockBuilder(Comment::class)
             ->setConstructorArgs([['id' => 1, 'user_id' => 2]])
-            ->setMethods(['_repository'])
+            ->onlyMethods(['_repository'])
             ->getMock();
 
         $comment
@@ -306,7 +304,7 @@ class LazyLoadEntityTraitTest extends TestCase
 
         $comment = $this->getMockBuilder(Comment::class)
             ->setConstructorArgs([['id' => 1, 'user_id' => 2]])
-            ->setMethods(['_repository'])
+            ->onlyMethods(['_repository'])
             ->getMock();
 
         $comment
