@@ -18,6 +18,7 @@ use JeremyHarris\LazyLoad\TestApp\Model\Table\ArticlesTable;
  * LazyLoadEntityTrait test
  * @property ArticlesTable $Articles
  */
+#[\AllowDynamicProperties]
 class LazyLoadEntityTraitTest extends TestCase
 {
     use LocatorAwareTrait;

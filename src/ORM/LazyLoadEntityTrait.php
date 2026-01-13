@@ -26,6 +26,16 @@ trait LazyLoadEntityTrait
     protected $_unsetProperties = [];
 
     /**
+     * Override __get, because in Cake 5.3, __get has been overridden, so breaking functionality
+     * @param string $name
+     * @return void
+     */
+    public function &__get(string $field): mixed
+    {
+        return $this->get($field);
+    }
+
+    /**
      * Overrides get() to check for associated data to lazy load, if that
      * property doesn't already exist
      *
