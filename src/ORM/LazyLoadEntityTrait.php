@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace JeremyHarris\LazyLoad\ORM;
 
+use Cake\Datasource\Exception\MissingPropertyException;
 use Cake\Datasource\RepositoryInterface;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
+use Error;
 
 /**
  * LazyLoadEntity trait
@@ -27,32 +29,52 @@ trait LazyLoadEntityTrait
     protected $_unsetProperties = [];
 
     /**
-     * Overrides get() to check for associated data to lazy load, if that
-     * property doesn't already exist
-     *
-     * @param string $property Property
+     * @param string $field
      * @return mixed
      */
-    public function &get($property): mixed
+    public function &__get(string $field): mixed
     {
-        $get = &$this->_parentGet($property);
-
-        if ($get === null) {
-            $get = $this->_lazyLoad($property);
-        }
-
-        return $get;
+        return $this->getRequiredOrFail($field, $this->requireFieldPresence ?? false);
     }
 
     /**
-     * Passthru for testing
-     *
-     * @param string $property Property
+     * @param string $field
      * @return mixed
      */
-    protected function &_parentGet($property)
+    public function &get(string $field): mixed
     {
-        return Entity::get($property);
+        return $this->getRequiredOrFail($field, true);
+    }
+
+    /**
+     * Overrides getRequiredOrFail() to check for associated data to lazy load, if that
+     * property doesn't already exist.
+     *
+     * @param string $field Property
+     * @return mixed
+     */
+    public function &getRequiredOrFail(string $field, bool $requireFieldPresence = true): mixed
+    {
+        $e = null;
+        $get = null;
+
+        try {
+            // CakePHP >= 5.3
+            $get = &Entity::getRequiredOrFail($field, $requireFieldPresence);
+        } catch (Error $err) {
+            // CakePHP < 5.3
+            $get = &Entity::get($field);
+        } catch (MissingPropertyException $e) {}
+
+        if ($get === null) {
+            $get = $this->_lazyLoad($field);
+        }
+
+        if ($get === null && $requireFieldPresence && $e && !$this->isNew()) {
+            throw $e;
+        }
+
+        return $get;
     }
 
     /**
@@ -64,7 +86,7 @@ trait LazyLoadEntityTrait
     public function has($property): bool
     {
         foreach ((array)$property as $prop) {
-            $has = $this->_parentHas($prop);
+            $has = Entity::has($property);
 
             if ($has === false) {
                 $has = $this->_lazyLoad($prop);
@@ -75,17 +97,6 @@ trait LazyLoadEntityTrait
         }
 
         return true;
-    }
-
-    /**
-     * Passthru for testing
-     *
-     * @param string $property Property
-     * @return mixed
-     */
-    protected function _parentHas($property)
-    {
-        return Entity::has($property);
     }
 
     /**
