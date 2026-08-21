@@ -133,7 +133,7 @@ trait LazyLoadEntityTrait
             return $this->_fields[$property];
         }
 
-        $repository = $this->_repository($property);
+        $repository = $this->_repository();
         if (!($repository instanceof RepositoryInterface)) {
             return null;
         }
