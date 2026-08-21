@@ -122,6 +122,7 @@ class LazyLoadEntityTraitTest extends TestCase
     public function testNoDbQueriesOnEmptyAssociation()
     {
         Log::setConfig('queries', ['className' => 'Array']);
+        /** @var \Cake\Log\Engine\ArrayLog $log */
         $log = Log::engine('queries');
 
         $article = $this->Articles->newEntity([
