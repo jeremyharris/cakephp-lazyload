@@ -43,7 +43,7 @@ trait LazyLoadEntityTrait
      */
     public function &get(string $field): mixed
     {
-        return $this->getRequiredOrFail($field, true);
+        return $this->getRequiredOrFail($field, false);
     }
 
     /**
